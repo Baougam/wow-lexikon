@@ -2,7 +2,7 @@
 ## Title: WoW Lexikon
 ## Notes: Englische Questtexte verstehen: Wörter anklicken für Übersetzung, Lautschrift und Aussprache; offizieller deutscher Questtext daneben.
 ## Author: WoW Lexikon
-## Version: 1.0.0
+## Version: 1.0.1
 ## SavedVariables: WowLexikonDB
 ## X-License: GPL-3.0
 ## X-Category: Quests

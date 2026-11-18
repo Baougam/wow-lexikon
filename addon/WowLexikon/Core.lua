@@ -3,7 +3,7 @@ local ADDON_NAME = ...
 
 WowLexikon = WowLexikon or {}
 local WL = WowLexikon
-WL.version = "1.0.0"
+WL.version = "1.0.1"
 
 -- Datentabellen (werden von den Data-Dateien gefüllt)
 WowLexikon_Words   = WowLexikon_Words   or {}   -- [wort] = "lautschrift|übersetzung|hinweis|beispiel|beispiel übersetzt|quelle"
