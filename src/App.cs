@@ -906,6 +906,16 @@ namespace WowLexikon
                 string learnedLua = File.ReadAllText(Path.Combine(fake3, "Interface", "AddOns", "WowLexikon", "Data", "Learned.lua"), Encoding.UTF8);
                 check("Gelerntes ins Addon zurückgeschrieben", learnedLua.Contains("[990001]={") && learnedLua.Contains("[\"brouhaha\"]"),
                     learnedLua.Length > 400 ? learnedLua.Substring(0, 400).Replace("\n", " ") : learnedLua);
+                // Wörter aus den Forever-Spieldaten (von GitHub) → ins Addon, ohne Gelerntes zu verlieren
+                var fw = new StringBuilder();
+                foreach (var w in new[] { "condor", "gorilla", "quartermaster", "banishment", "iridescent", "rasp", "ankh", "pinecone", "stinky", "lockout", "midsummer", "undesired" })
+                    fw.Append(w).Append("||Test-").Append(w).Append('\n');
+                fw.Append("Ragnaros||kaputt\nkaputte zeile\n");
+                int nfw = c.Addon.ApplyForeverWords(fw.ToString());
+                string learnedFw = File.ReadAllText(Path.Combine(fake3, "Interface", "AddOns", "WowLexikon", "Data", "Learned.lua"), Encoding.UTF8);
+                check("Forever-Wörter übernommen (Gelerntes bleibt, Unsinn nicht)", nfw == 12 && learnedFw.Contains("[\"condor\"]=\"|Test-condor") && learnedFw.Contains("[\"brouhaha\"]") && !learnedFw.Contains("Ragnaros"), nfw + " neu");
+                check("Dieselbe Liste nochmal: nichts Neues", c.Addon.ApplyForeverWords(fw.ToString()) == 0, null);
+                check("Adresse der Wortliste aus der Update-Adresse", c.Addon.ForeverWordsUrl == "https://raw.githubusercontent.com/Baougam/wow-lexikon/main/data/woerter-forever.txt", c.Addon.ForeverWordsUrl);
                 var sr2 = await c.Addon.Sync(m => { });
                 check("Zweiter Abgleich übersetzt nichts doppelt", sr2.NewWords == 0 && sr2.NewQuests == 0, c.Addon.LastMessage);
                 File.WriteAllText(Path.Combine(svDir, "WowLexikon.lua"), File.ReadAllText(Path.Combine(svDir, "WowLexikon.lua")).Replace("99999", "100123"));

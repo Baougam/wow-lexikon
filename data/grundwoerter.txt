@@ -1,0 +1,110 @@
+have|hæv|haben
+has|hæz|hat
+had|hæd|hatte; gehabt
+having|ˈhævɪŋ|habend
+was|wɑːz|war
+were|wɜːr|waren; wart
+am|æm|bin
+re|reɪ|bezüglich
+them|ðɛm|sie; ihnen
+him|hɪm|ihn; ihm
+us|ʌs|uns
+could|kʊd|könnte; konnte
+did|dɪd|tat; machte
+does|dʌz|tut; macht
+done|dʌn|getan; erledigt
+would|wʊd|würde
+should|ʃʊd|sollte
+might|maɪt|könnte; vielleicht
+must|mʌst|muss
+shall|ʃæl|soll; werde
+cannot|ˈkænɑt|kann nicht
+won't|woʊnt|wird nicht
+don't|doʊnt|nicht (tun)
+can't|kænt|kann nicht
+isn't|ˈɪzənt|ist nicht
+yours|jʊrz|deins; Ihres
+ours|ˈaʊərz|unseres
+theirs|ðɛrz|ihres
+whom|huːm|wen; wem
+whose|huːz|wessen
+stun|stʌn|betäuben
+cleave|kliːv|spalten; Spalten (Angriff, der mehrere Gegner trifft)
+pierce|pɪrs|durchbohren; durchdringen
+regen|ˈrɛɡən|Regeneration
+despawn||verschwinden (aus der Welt)
+respawn|riːˈspɑːn|wieder erscheinen; neu erscheinen
+backstab||in den Rücken fallen; Meucheln
+enrage|ɛnˈreɪdʒ|wütend machen; Wutanfall
+enraged|ɛnˈreɪdʒd|wütend; rasend
+asleep|əˈsliːp|schlafend
+astral|ˈæstrəl|astral; Astral-
+glaive||Gleve
+sigil||Siegel
+shapeshift||die Gestalt wandeln
+shapeshifted||verwandelt (Gestaltwandel)
+shapeshifting||Gestaltwandel
+polymorph|ˈpɑːliːmɔːrf|verwandeln (in ein Schaf); Verwandlung
+polymorphed||verwandelt
+spellcast||Zauber wirken
+spellcasting||Zauberwirken
+spellcaster||Zauberwirker
+lunar|ˈluːnər|Mond-; lunar
+smite||niederstrecken; strafen
+immolate|ˈɪməleɪt|opfern; verbrennen
+grimoire||Grimoire; Zauberbuch
+libram||Buch (Paladin-Relikt)
+legguards||Beinschützer
+wristguards||Armschützer
+sabatons||Sabatons; Stiefel (Plattenrüstung)
+shoulderpads||Schulterpolster
+waistguard||Taillenschutz
+handwraps||Handwickel
+filigreed||mit Filigran verziert
+rideable||reitbar
+sew|soʊ|nähen
+yds||Meter (Yards)
+yd||Meter (Yard)
+min|mɪn|Minute; Mindest-
+mins||Minuten
+hrs||Stunden
+max|mæks|Maximum; höchstens
+vs|ˈviːˈɛs|gegen
+minimap||Minikarte
+tooltip||Tooltip; Hinweisfenster
+keybind||Tastenbelegung
+keybindings||Tastenbelegungen
+reload|riˈloʊd|neu laden
+refresh|rɪˈfrɛʃ|aktualisieren; erneuern
+reroll||neu würfeln; neuen Charakter anfangen
+loadout||Ausrüstung; Ausstattung
+useable||benutzbar
+equippable||anlegbar
+lootable||plünderbar
+unlearn||verlernen
+hitpoints||Trefferpunkte; Gesundheit
+underwater|ˈʌndərwɔːtər|unter Wasser
+disavow|dɪsəˈvaʊ|ablehnen; sich lossagen
+dissipates|ˈdɪsəpeɪts|löst sich auf
+participate|pɑrˈtɪsəpeɪt|teilnehmen
+kneel|niːl|knien
+negate|nɪˈɡeɪt|aufheben; zunichtemachen
+druidic||druidisch
+afflict|əˈflɪkt|heimsuchen; befallen
+annihilates||vernichtet
+resembles|rɪˈzɛmbəlz|ähnelt
+expends||verbraucht
+dispeller||Banner von Magie; wer Zauber aufhebt
+decapitate|diˈkæpəteɪt|enthaupten
+incapacitates||handlungsunfähig machen
+sacrificial|sækrəˈfɪʃəl|Opfer-
+scorches||versengt
+incur|ɪnˈkɜːr|sich zuziehen
+withdrew|wɪθˈdruː|zog sich zurück
+waygate||Wegtor
+nonrefundable|nɑnrɪˈfʌndəbəl|nicht erstattbar
+uncollected|ənkəˈlɛktɪd|nicht abgeholt
+directional|dərˈɛkʃənəl|Richtungs-
+multi|ˈmʌlti|mehrfach
+healthstone||Gesundheitsstein
+partygoer||Partygast

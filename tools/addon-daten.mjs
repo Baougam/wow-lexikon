@@ -34,15 +34,26 @@ function writeChunks(dir, base, globalName, entries, perFile, header) {
   return files;
 }
 
-// ---------------- Wortschatz (Rangfolge: auto < Questwörter < Glossar) ----------------
+// ---------------- Wortschatz (Rangfolge: Forever < auto < Grundwörter < Questwörter < Glossar) ----------------
 const words = new Map();   // wort → "lautschrift|deutsch|hinweis|beispiel|beispiel_de|quelle"
 const put = (w, ipa, de, note, ex, exDe, src) => { if (w && de) words.set(w.toLowerCase(), [ipa, de, note, ex, exDe, src].map(x => (x ?? '').replace(/\|/g, '/')).join('|')); };
-for (const l of fs.readFileSync(path.join(root, 'data', 'woerter-auto.txt'), 'utf8').split('\n')) { const [w, ipa, de] = l.split('|'); put(w, ipa, de, '', '', '', 'w'); }
-for (const l of fs.readFileSync(path.join(root, 'data', 'questwoerter.txt'), 'utf8').split('\n')) { const [w, ipa, de] = l.split('|'); put(w, ipa, de, '', '', '', 'q'); }
+const lines = f => { const p = path.join(root, 'data', f); return fs.existsSync(p) ? fs.readFileSync(p, 'utf8').split('\n') : []; };
+// aus den Spieldaten von WoW Forever, im Wörterbuch nachgeschlagen (tools/forever-woerter.mjs, wöchentlich auf GitHub)
+for (const l of lines('woerter-forever.txt')) { const [w, ipa, de] = l.split('|'); put(w, ipa, de, '', '', '', 'w'); }
+for (const l of lines('woerter-auto.txt')) { const [w, ipa, de] = l.split('|'); put(w, ipa, de, '', '', '', 'w'); }
+// von Hand: Grundwörter und Spielbegriffe, die das Wörterbuch nicht als Einzelwort hat
+for (const l of lines('grundwoerter.txt')) { const [w, ipa, de] = l.split('|'); put(w, ipa, de, '', '', '', 'q'); }
+for (const l of lines('questwoerter.txt')) { const [w, ipa, de] = l.split('|'); put(w, ipa, de, '', '', '', 'q'); }
 for (const e of JSON.parse(fs.readFileSync(path.join(root, 'data', 'glossar-wow.json'), 'utf8'))) put(e.en, e.ipa, e[lang], lang === 'de' ? e.note : '', e.ex, e['ex_' + lang], 'g');
 const wordEntries = [...words].sort((a, b) => a[0] < b[0] ? -1 : 1).map(([k, v]) => [k, L(v)]);
 const wordFiles = writeChunks(coreDir, 'Words', 'WowLexikon_Words', wordEntries, 6000,
   '-- Wortschatz für WoW Lexikon (automatisch erzeugt mit tools/addon-daten.mjs)\n-- Format: "lautschrift|übersetzung|hinweis|beispiel|beispiel übersetzt|quelle (g=Glossar, q=Questwort, w=Wörterbuch)"');
+
+// Auf GitHub (ohne Blizzard-Daten) nur den Wortschatz bauen
+if (args.includes('--nur-woerter') || !fs.existsSync(path.join(root, 'data', `namen-${lang}.txt.gz`))) {
+  console.log(`Wörter: ${wordEntries.length} in ${wordFiles.length} Dateien (nur Wortschatz, keine Spieldaten)`);
+  process.exit(0);
+}
 
 // ---------------- Namen + Questtexte (nur lokal) ----------------
 const gz = f => zlib.gunzipSync(fs.readFileSync(path.join(root, 'data', f))).toString('utf8').split('\n').filter(Boolean);

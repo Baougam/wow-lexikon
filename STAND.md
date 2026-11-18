@@ -67,7 +67,7 @@ Beispielsätze – ohne aus dem Spiel herausgerissen zu werden. WoW läuft auf e
 - Deutsche Namen automatisch in Tooltips (NPCs, Gegenstände).
 - Tasten änderbar unter Tastenbelegung → WoW Lexikon; Halte-Taste und Schalter unter Optionen → AddOns (`Options.lua`).
 - Merkt sich unbekannte Wörter, gesehene Questtexte und die Spielversion in `WowLexikonDB` (SavedVariables).
-- Offline: 14.513 Wörter (`Data/Words*.lua`), Namen + Questtexte im Lade-bei-Bedarf-Addon `WowLexikon_Data`.
+- Offline: 16.203 Wörter (`Data/Words*.lua`), Namen + Questtexte im Lade-bei-Bedarf-Addon `WowLexikon_Data`.
 - Freie Schrift mit Lautschrift-Zeichen: `Fonts/GentiumBookPlus-Regular.ttf` (SIL Open Font License) – die WoW-Schriften
   haben keine IPA-Zeichen.
 
@@ -94,6 +94,8 @@ Beispielsätze – ohne aus dem Spiel herausgerissen zu werden. WoW läuft auf e
 | `data/questwoerter.txt` | 3.000 häufigste Questwörter, von Hand übersetzt, mit IPA | eigene Arbeit | ja |
 | `data/glossar-wow.json` | ~580 WoW-Begriffe, Chat-Slang, Orte mit dt. Namen, Beispiele | eigene Arbeit | ja |
 | `data/woerter-auto.txt` | ~10.900 weitere Wörter, automatisch | Ding (TU Chemnitz, GPL) + CMU-Aussprachewörterbuch (BSD) | ja (GPL beachten) |
+| `data/woerter-forever.txt` | ~1.600 Wörter aus den Forever-Spieldaten, wöchentlich | wago.tools (nur zum Finden) → Ding + CMU | ja (Einzelwörter) |
+| `data/grundwoerter.txt` | ~110 Grundwörter (have, was, them …) + Spielbegriffe (stun, cleave …), die Ding nicht als Einzelwort hat | eigene Arbeit | ja |
 | `data/quests-de.txt.gz` | 4.725 Classic-Quests, 18.747 Texte EN↔DE | AzerothCore-Datenbank; **Texte gehören Blizzard** | **nein** |
 | `data/namen-de.txt.gz` | 75.375 Namen EN↔DE | AzerothCore; **Blizzard** | **nein** |
 
@@ -122,10 +124,27 @@ tools/addon-test/        Addon-Test in nachgebauter WoW-Umgebung (fengari + luap
 - **Programm bauen**: `.\build.ps1` (nur Windows-Bordmittel: eingebauter C#-Compiler; das .NET SDK zu installieren war
   auf dem Entwicklungs-PC nicht erlaubt). `-OhneSpieldaten` für die weitergebbare Version.
 - **Programm testen**: `bin\WowLexikon.exe --selftest <ordner>` → `selbsttest.txt` + Vorschaubilder.
-  Stand: **58/58 OK** (56 mit Spieldaten-Erzeugung, wenn `<ordner>\gdb\sql` die SQL-Dateien enthält).
+  Stand: **61/61 OK** (56 mit Spieldaten-Erzeugung, wenn `<ordner>\gdb\sql` die SQL-Dateien enthält).
 - **Addon testen**: `cd tools\addon-test; node run.mjs ..\..\addon` → **85/85 OK**, auch mit `WOW_TEMPLATE=1` (Syntax Lua 5.1 + Abläufe:
   Mini-Übersetzung, Karte, Deutsch zuklappen, Deutsch-Knopf im Questfenster, Vorlesen alt/neu, Sprachen, Hervorhebung, Gespräch, Buch, Alt+T, Alt+C, Namen-Tooltip, Aufzeichnen).
-- **Daten neu bauen**: `node tools/daten-bauen.mjs` → `node tools/woerter-bauen.mjs` → `node tools/addon-daten.mjs` → `.\build.ps1`.
+- **Daten neu bauen**: `node tools/daten-bauen.mjs` → `node tools/woerter-bauen.mjs` → `node tools/forever-woerter.mjs` →
+  `node tools/addon-daten.mjs` → `.\build.ps1`. Gemeinsamer Code (Ding, CMU, Grundformen): `tools/wortschatz.mjs`.
+
+## Neue Wörter ohne Spielen (seit 18.11.)
+
+- **GitHub-Job** `.github/workflows/forever-woerter.yml` (montags + „Run workflow“): neueste Forever-Version von
+  wago.tools (`api/builds`, Produkt `wowf`), englische Tabellen ItemSparse, SpellName, Spell, AreaTable, Faction,
+  GlobalStrings, CreatureFamily, ChrClasses → Wörter, die das Addon nicht kennt → **nur Wörterbuch-Treffer** (Ding/CMU),
+  nichts wird geraten (ohne Treffer = fast immer Eigennamen; Liste nur in `tools/.cache/forever-ohne-uebersetzung.tsv`).
+  Schreibt `data/woerter-forever.txt` + `Words*.lua` (`addon-daten.mjs --nur-woerter`), committet nur bei Änderungen.
+- **Begleit-Programm** lädt bei jeder Update-Prüfung (Start, alle 6 h) `raw.githubusercontent.com/<repo>/main/data/woerter-forever.txt`
+  (`AddonSync.ForeverWordsUrl`, aus der Update-Adresse abgeleitet), speichert in `gelernt.json` (`Forever`, SHA1 gegen
+  doppelte Arbeit) und schreibt `Learned.lua`; Wörterbuch geht vor Online-Übersetzung. Online übersetzt (MyMemory/KI)
+  wird nur noch, was weder Addon noch Liste kennt.
+- **Questtexte** bleiben lokal: jeder braucht nur die Quests, die er spielt; neue Forever-Quests stehen in keinen
+  Spieldateien (kommen vom Server), Blizzard-Texte werden nicht geteilt.
+- **Unbekannte Wörter der Nutzer** (später, mit Zustimmung): nur als Hinweis, welches Wort fehlt – nie als Übersetzung;
+  Aufnahme nur nach Prüfung (Wörterbuch-Treffer oder von Hand).
 
 ## Stand
 

@@ -424,6 +424,8 @@ namespace WowLexikon
             public Dictionary<string, Dictionary<string, string>> Quests = new Dictionary<string, Dictionary<string, string>>();  // id → {T,D,O,Q,R, src_*=englisch, changed}
             public string Build = "", LastSync = "";
             public List<string> Updates = new List<string>();
+            public Dictionary<string, string> Forever = new Dictionary<string, string>();   // Wörter aus den Forever-Spieldaten (Wörterbuch-Übersetzung)
+            public string ForeverHash = "";
         }
         public static string StoreOverride;   // nur für den Selbsttest
         static string StoreFile { get { return StoreOverride ?? Path.Combine(Settings.Dir, "gelernt.json"); } }
@@ -446,7 +448,10 @@ namespace WowLexikon
             var s = Store;
             var sb = new StringBuilder("-- Vom WoW-Lexikon-Begleit-Programm geschrieben (" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ")\n");
             sb.Append("WowLexikon_Learned = { build = ").Append(Lua.Str(s.Build)).Append(", generated = ").Append(Lua.Str(s.LastSync)).Append(",\nwords = {\n");
-            foreach (var kv in s.Words) sb.Append('[').Append(Lua.Str(kv.Key)).Append("]=").Append(Lua.Str(kv.Value)).Append(",\n");
+            // Wörterbuch-Übersetzungen aus den Forever-Spieldaten gehen vor Online-Übersetzungen
+            var merged = new Dictionary<string, string>(s.Words ?? new Dictionary<string, string>());
+            if (s.Forever != null) foreach (var kv in s.Forever) merged[kv.Key] = kv.Value;
+            foreach (var kv in merged) sb.Append('[').Append(Lua.Str(kv.Key)).Append("]=").Append(Lua.Str(kv.Value)).Append(",\n");
             sb.Append("},\nquests = {\n");
             foreach (var kv in s.Quests)
             {
@@ -510,7 +515,7 @@ namespace WowLexikon
                 foreach (var e in vocab) { try { var w = Convert.ToString(e.ContainsKey("w") ? e["w"] : ""); if (!VocabHas(w)) Vocab.Add(w, Convert.ToString(e.ContainsKey("ipa") ? e["ipa"] : ""), Convert.ToString(e.ContainsKey("tr") ? e["tr"] : ""), "", "", "aus dem Addon"); } catch { } }
 
                 // 1) Unbekannte Wörter
-                var todoWords = unknown.Where(kv => !s.Words.ContainsKey(kv.Key) && app.Glossary.Find(kv.Key) == null && Regex.IsMatch(kv.Key, @"^[a-z][a-z' -]*$"))
+                var todoWords = unknown.Where(kv => !s.Words.ContainsKey(kv.Key) && (s.Forever == null || !s.Forever.ContainsKey(kv.Key)) && app.Glossary.Find(kv.Key) == null && Regex.IsMatch(kv.Key, @"^[a-z][a-z' -]*$"))
                                        .OrderByDescending(kv => kv.Value).Select(kv => kv.Key).Take(150).ToList();
                 int i = 0;
                 foreach (var w in todoWords)
@@ -624,9 +629,57 @@ namespace WowLexikon
                 File.WriteAllBytes(self + ".neu", bytes);
                 msgs.Add("Neue Version " + appV + " des Begleit-Programms geladen – wird beim nächsten Start übernommen");
             }
+            try
+            {
+                int nf = await UpdateForeverWords();
+                if (nf > 0) msgs.Add(nf + " neue Wörter aus WoW Forever");
+            }
+            catch { }   // Wortliste nicht erreichbar: beim nächsten Mal
             string hint = Json.Str(m, "hinweis");
             if (msgs.Count > 0 && !string.IsNullOrEmpty(hint)) msgs.Add(hint);
             return msgs.Count > 0 ? string.Join(". ", msgs) + "." : null;
+        }
+
+        // ---------------- Wörter aus den Forever-Spieldaten (wöchentlich auf GitHub erzeugt, niemand muss dafür spielen) ----------------
+
+        /// <summary>Aus der Update-Adresse (github.com/NAME/REPO/releases/…) die Wortliste im Repo ableiten.</summary>
+        public string ForeverWordsUrl
+        {
+            get
+            {
+                var m = Regex.Match(UpdateUrl ?? "", @"github\.com/([^/]+/[^/]+)/releases/");
+                return m.Success ? "https://raw.githubusercontent.com/" + m.Groups[1].Value + "/main/data/woerter-forever.txt" : null;
+            }
+        }
+
+        public async Task<int> UpdateForeverWords()
+        {
+            string url = ForeverWordsUrl;
+            if (url == null) return 0;
+            return ApplyForeverWords(await Http.Client.GetStringAsync(url));
+        }
+
+        /// <summary>Übernimmt die Liste (je Zeile wort|lautschrift|deutsch). Rückgabe: Anzahl neuer Wörter.</summary>
+        public int ApplyForeverWords(string text)
+        {
+            var s = Store;
+            string hash;
+            using (var sha = System.Security.Cryptography.SHA1.Create())
+                hash = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(text ?? ""))).Replace("-", "");
+            if (hash == s.ForeverHash) return 0;
+            var list = new Dictionary<string, string>();
+            foreach (var line in (text ?? "").Split('\n'))
+            {
+                var p = line.TrimEnd('\r').Split('|');
+                if (p.Length < 3 || !Regex.IsMatch(p[0], @"^[a-z][a-z' -]*$") || p[2].Trim() == "") continue;
+                list[p[0]] = string.Join("|", new[] { p[1], p[2], "", "", "", "w" });
+            }
+            if (list.Count < 10) return 0;   // kaputte oder leere Antwort: nichts überschreiben
+            int added = list.Keys.Count(k => s.Forever == null || !s.Forever.ContainsKey(k));
+            s.Forever = list; s.ForeverHash = hash;
+            SaveStore();
+            WriteLearned();
+            return added;
         }
 
         static bool Newer(string a, string b)

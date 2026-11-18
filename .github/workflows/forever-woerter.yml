@@ -1,0 +1,44 @@
+# Holt jede Woche die Spieldaten der neuesten WoW-Forever-Version (wago.tools, nur englische Texte),
+# schlägt neue Wörter in freien Wörterbüchern nach und legt sie ins Repo:
+#   data/woerter-forever.txt  → das Begleit-Programm lädt die Datei und gibt die Wörter an das Addon weiter
+#   addon/WowLexikon/Data/Words*.lua → steckt in der nächsten Addon-Version
+# Keine Blizzard-Texte: nur einzelne Wörter mit Wörterbuch-Übersetzung.
+name: Forever-Wörter
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'     # montags 04:17 UTC
+  workflow_dispatch:          # „Run workflow“ auf GitHub = sofort
+
+permissions:
+  contents: write
+
+jobs:
+  woerter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Zwischenspeicher (Wörterbücher, Spieldaten)
+        uses: actions/cache@v4
+        with:
+          path: tools/.cache
+          key: woerter-${{ github.run_id }}
+          restore-keys: woerter-
+      - name: Neue Wörter aus WoW Forever
+        run: node tools/forever-woerter.mjs
+      - name: Wortschatz fürs Addon
+        run: node tools/addon-daten.mjs --nur-woerter
+      - name: Speichern, wenn sich etwas geändert hat
+        run: |
+          if git diff --quiet -- data/woerter-forever.txt addon/WowLexikon/Data; then
+            echo "Keine neuen Wörter."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/woerter-forever.txt data/forever-stand.json addon/WowLexikon/Data
+          git commit -m "Forever-Wörter: $(node -p "const s=require('./data/forever-stand.json'); s.neu+' neu, '+s.woerter+' gesamt (Version '+s.build+')'")"
+          git push

@@ -1,0 +1,17 @@
+{
+  "build": "1.60.1.70959",
+  "woerter": 1596,
+  "neu": 0,
+  "ohneUebersetzung": 2816,
+  "quelle": "wago.tools (enUS) → Ding (TU Chemnitz, GPL) + CMU",
+  "tabellen": [
+    "ItemSparse",
+    "SpellName",
+    "Spell",
+    "AreaTable",
+    "Faction",
+    "GlobalStrings",
+    "CreatureFamily",
+    "ChrClasses"
+  ]
+}
