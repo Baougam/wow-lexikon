@@ -17,7 +17,7 @@ namespace WowLexikon
     {
         public const string Version = "1.0.0";
         /// <summary>Fest eingebaute Update-Quelle (setzt tools/veroeffentlichen.ps1). Leer = nur die Einstellung zählt.</summary>
-        public const string DefaultUpdateUrl = "";
+        public const string DefaultUpdateUrl = "https://github.com/Baougam/wow-lexikon/releases/latest/download/manifest.json";
 
         [STAThread]
         static void Main(string[] args)

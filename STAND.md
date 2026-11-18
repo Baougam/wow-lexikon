@@ -1,6 +1,6 @@
 # WoW Lexikon – Stand (18.11.2026)
 
-Projektordner: `wow-woerterbuch` (beim Entwickler in OneDrive). GitHub: `Baougam/wow-lexikon` (geplant).
+Projektordner: `wow-woerterbuch` (beim Entwickler in OneDrive). GitHub: https://github.com/Baougam/wow-lexikon (öffentlich, Release v1.0.0 am 18.11.2026).
 
 Zuerst lesen, wer am Projekt weiterarbeitet (Mensch oder KI). Nach jeder größeren Änderung aktualisieren.
 
@@ -155,7 +155,7 @@ tools/addon-test/        Addon-Test in nachgebauter WoW-Umgebung (fengari + luap
   echter Upload noch nie gelaufen (kein GitHub-Konto bisher).
 - Nutzer: Updates automatisch (Start, 6 h) + Knopf **„Nach Updates suchen“** (Einstellungen, Tray-Menü); nach
   Programm-Update Frage „Jetzt neu starten?“.
-- Noch offen: GitHub-Konto/Repo des Spielers anlegen; Download-Link in `curseforge/BESCHREIBUNG.md` eintragen.
+- Erledigt 18.11.: Repo `Baougam/wow-lexikon`, Release v1.0.0, Update-Adresse fest eingebaut, Download-Link in der CurseForge-Beschreibung. Hochladen nutzt die Git-Anmeldung des PCs (`git credential fill` → `GITHUB_TOKEN`). Noch offen: CurseForge-Projekt.
 
 ## Nächste Schritte
 

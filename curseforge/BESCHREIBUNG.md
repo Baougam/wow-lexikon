@@ -30,7 +30,7 @@ Tooltips und im Chat. Mit Lautschrift und Aussprache zum Anhören.
 - Erkennt Spiel-Updates und geänderte Questtexte, aktualisiert sich selbst
 - Übersetzt auf Wunsch auch Text auf dem Bildschirm, den kein Addon lesen kann
 
-Download: **LINK ZUM BEGLEIT-PROGRAMM HIER EINTRAGEN**
+Download: https://github.com/Baougam/wow-lexikon/releases/latest/download/WowLexikon.exe
 
 ## Befehle
 
