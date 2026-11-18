@@ -1,0 +1,6 @@
+<Bindings>
+  <Binding name="WOWLEXIKON_UNDERMOUSE" header="WOWLEXIKON" category="ADDONS">WowLexikon.TranslateUnderMouse()</Binding>
+  <Binding name="WOWLEXIKON_CHAT" category="ADDONS">WowLexikon.ShowChat()</Binding>
+  <Binding name="WOWLEXIKON_PANEL" category="ADDONS">WowLexikon.TogglePanel()</Binding>
+  <Binding name="WOWLEXIKON_SEARCH" category="ADDONS">WowLexikon.OpenSearch()</Binding>
+</Bindings>

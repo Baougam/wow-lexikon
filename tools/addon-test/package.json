@@ -1,0 +1,1 @@
+{ "name": "wowlexikon-addon-test", "private": true, "type": "module", "dependencies": { "fengari": "0.1.4", "luaparse": "0.3.1" } }

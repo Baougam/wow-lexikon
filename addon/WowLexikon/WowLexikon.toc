@@ -1,0 +1,21 @@
+## Interface: 16001, 11509, 11508, 11507
+## Title: WoW Lexikon
+## Notes: Englische Questtexte verstehen: Wörter anklicken für Übersetzung, Lautschrift und Aussprache; offizieller deutscher Questtext daneben.
+## Author: WoW Lexikon
+## Version: 1.0.0
+## SavedVariables: WowLexikonDB
+## X-License: GPL-3.0
+## X-Category: Quests
+## X-Credits: Ding (TU Chemnitz), CMU Pronouncing Dictionary, Gentium Book Plus (SIL) – siehe CREDITS.txt
+
+Core.lua
+Locale.lua
+Data\Words1.lua
+Data\Words2.lua
+Data\Words3.lua
+Data\Learned.lua
+Book.lua
+UI.lua
+Immersive.lua
+Options.lua
+Welcome.lua

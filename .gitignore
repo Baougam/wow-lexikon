@@ -1,0 +1,10 @@
+bin/
+tools/.cache/
+release/
+addon/WowLexikon_Data/
+tools/addon-test/node_modules/
+tools/.github-token
+# Blizzard-Texte: nie veröffentlichen (jeder PC erzeugt sie selbst)
+data/*.txt.gz
+data/*.sql
+*.log

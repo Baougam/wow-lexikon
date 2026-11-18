@@ -1,0 +1,32 @@
+WoW Lexikon – Quellen und Lizenzen
+==================================
+
+Addon (Code, Glossar, 3.000 handübersetzte Questwörter): GPL-3.0, siehe LICENSE.txt.
+
+Wörterbuch-Daten (Data/Words*.lua) enthalten zusätzlich:
+
+* Übersetzungen aus „Ding“ – Deutsch-Englisch-Wörterbuch der TU Chemnitz
+  Copyright (c) 1995-2020 Frank Richter (frank.richter.tu-chemnitz.de)
+  Lizenz: GNU General Public License, Version 2 oder später
+  https://dict.tu-chemnitz.de/
+
+* Lautschrift abgeleitet aus dem CMU Pronouncing Dictionary
+  Copyright (c) 1993-2015 Carnegie Mellon University. All rights reserved.
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+  following conditions are met: (1) Redistributions of source code must retain the above copyright notice, this list
+  of conditions and the following disclaimer. (2) Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided
+  with the distribution. THIS SOFTWARE IS PROVIDED BY CARNEGIE MELLON UNIVERSITY "AS IS" AND ANY EXPRESSED OR IMPLIED
+  WARRANTIES ... ARE DISCLAIMED.
+  https://github.com/cmusphinx/cmudict
+
+* Wortauswahl (Häufigkeit) aus der Liste „google-10000-english“ (first20hours)
+  https://github.com/first20hours/google-10000-english
+
+Schrift (Fonts/GentiumBookPlus-Regular.ttf): Gentium Book Plus, Copyright (c) 2003-2022 SIL International,
+SIL Open Font License 1.1, siehe Fonts/OFL.txt.
+
+Nicht enthalten: Texte von Blizzard Entertainment (Questtexte, Namen). Diese erzeugt das optionale Begleit-Programm
+auf jedem PC selbst aus der öffentlichen AzerothCore-Datenbank (Addon „WowLexikon_Data“, wird nicht weitergegeben).
+World of Warcraft ist eine Marke von Blizzard Entertainment. Dieses Addon ist ein Fanprojekt und steht in keiner
+Verbindung zu Blizzard Entertainment.
